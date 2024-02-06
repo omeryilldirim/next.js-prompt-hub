@@ -8,7 +8,6 @@ const Nav = () => {
   const {data: session} = useSession();
   const [providers, setProviders] = useState(null);
 
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
   const [toggleDropdown, setToggleDropdown] = useState(false)
 
   const handleProviders = async () => {
@@ -22,7 +21,7 @@ const Nav = () => {
 
   return (
     <nav className="flex-between w-full mb-16 pt-3">
-      <Link href="/" className='flex gap-2 pt-3'>
+      <Link href="/" className='flex gap-2 flex-center'>
         <Image 
           width={35} 
           height={35} 
@@ -30,24 +29,25 @@ const Nav = () => {
           alt="logo" 
           className="object-contain"
         />
+        <p className="logo_text">PromptHub</p>
       </Link>
       {/* desktop nav */}
       <div className="sm:flex hidden">
-        {isUserLoggedIn ? (
+        {session?.user ? (
           <div className="flex gap-3 md:gap-5">
-            <Link href="/create-post" >Create Post</Link>
+            <Link href="/create-prompt" className="black_btn">Create Prompt</Link>
+            <button className="outline_btn" onClick={()=> signOut()}>
+              Sign Out
+            </button>
             <Link href="/profile" className="nav-link">
               <Image 
                 width={37} 
                 height={37} 
-                src="./assets/images/logo.svg" 
+                src={session?.user?.image}
                 alt="profile" 
                 className="rounded-full"
               />
             </Link>
-            <button className="outline_btn" onClick={()=> console.log('signed out')}>
-              Sign Out
-            </button>
           </div>
         ) : (
           <div className="flex gap-3 md:gap-5">
@@ -62,7 +62,7 @@ const Nav = () => {
       </div>
       {/* mobile nav */}
       <div className="sm:hidden flex relative">
-          {isUserLoggedIn ? (
+          {session?.user ? (
             <div className="flex cursor-pointer">
               <Image 
                 width={37} 
@@ -80,7 +80,7 @@ const Nav = () => {
                   <Link href="/create-post" className="dropdown_link" onClick={()=>setToggleDropdown(false)}>
                     Create Post
                   </Link>
-                  <button type="button" className="black_btn w-full text-center mt-5" onClick={()=> {console.log('signed out'), setToggleDropdown(false)}}>
+                  <button type="button" className="black_btn w-full text-center mt-5" onClick={()=> signOut()}>
                     Sign Out
                   </button>
                 </div>
