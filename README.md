@@ -32,3 +32,4 @@ To get started with PromptHub, follow these steps:
    ```bash
    yarn dev
    ```
+5. **Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.**
